@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -28,6 +28,36 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const AddCraftCollection = client.db('AddCraftDB').collection('AddCraft');
+
+    app.get('/AddCraft', async (req, res) => {
+      const cursor = AddCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    app.get('/mycraft/:email', async (req, res) => {
+      console.log(req.params.email);
+      const result = await AddCraftCollection.find({
+        email: req.params.email,
+      }).toArray();
+      res.send(result);
+    });
+
+    app.get('/AddCraft/:id', async (req, res) => {
+      const result = await AddCraftCollection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
+
+    app.post('/AddCraft', async (req, res) => {
+      const newCraft = req.body;
+      console.log(newCraft);
+      const result = await AddCraftCollection.insertOne(newCraft);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
@@ -35,7 +65,6 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
   }
 }
 run().catch(console.dir);
