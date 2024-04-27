@@ -37,7 +37,6 @@ async function run() {
       res.send(result);
     });
     app.get('/mycraft/:email', async (req, res) => {
-      console.log(req.params.email);
       const result = await AddCraftCollection.find({
         email: req.params.email,
       }).toArray();
@@ -55,6 +54,26 @@ async function run() {
       const newCraft = req.body;
       console.log(newCraft);
       const result = await AddCraftCollection.insertOne(newCraft);
+      res.send(result);
+    });
+    app.put('/updateCraft/:id', async (req, res) => {
+      console.log(req.params.id);
+      const query = { _id: new ObjectId(req.params.id) };
+      const data = {
+        $set: {
+          image: req.body.image,
+          Itemname: req.body.Itemname,
+          subcategory_Name: req.body.subcategory_Name,
+          description: req.body.description,
+          price: req.body.price,
+          rating: req.body.rating,
+          customization: req.body.customization,
+          processing_time: req.body.processing_time,
+          stockStatus: req.body.stockStatus,
+        },
+      };
+      const result = await AddCraftCollection.updateOne(query, data);
+      console.log(result);
       res.send(result);
     });
 
