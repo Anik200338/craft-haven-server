@@ -49,12 +49,6 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    // app.get('/mycraft/:email', async (req, res) => {
-    //   const result = await AddCraftCollection.find({
-    //     email: req.params.email,
-    //   }).toArray();
-    //   res.send(result);
-    // });
     app.get('/craft/:email', async (req, res) => {
       const result = await AddCraftCollection.find({
         email: req.params.email,
