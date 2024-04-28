@@ -30,6 +30,9 @@ async function run() {
     await client.connect();
 
     const AddCraftCollection = client.db('AddCraftDB').collection('AddCraft');
+    const AddSubcategoryCollection = client
+      .db('AddCraftDB')
+      .collection('AddSubcategory');
 
     app.get('/AddCraft', async (req, res) => {
       const cursor = AddCraftCollection.find();
@@ -55,6 +58,13 @@ async function run() {
     app.get('/craft/:email', async (req, res) => {
       const result = await AddCraftCollection.find({
         email: req.params.email,
+      }).toArray();
+      res.send(result);
+    });
+    app.get('/subcategory/:subcategory_Name', async (req, res) => {
+      console.log(req.params.subcategory_Name);
+      const result = await AddCraftCollection.find({
+        subcategory_Name: req.params.subcategory_Name,
       }).toArray();
       res.send(result);
     });
@@ -107,6 +117,21 @@ async function run() {
       res.send(result);
     });
 
+    // AddSubcategoryCollection;
+    app.get('/Subcategory', async (req, res) => {
+      const cursor = AddSubcategoryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get('/category/:id', async (req, res) => {
+      console.log(req.params.id);
+      const result = await AddSubcategoryCollection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
@@ -117,10 +142,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-app.get('/', (req, res) => {
-  res.send('add craft maker is running');
-});
 
 app.listen(port, () => {
   console.log(`add craft server is running on port: ${port}`);
