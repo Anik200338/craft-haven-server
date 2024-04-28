@@ -55,13 +55,6 @@ async function run() {
       }).toArray();
       res.send(result);
     });
-    app.get('/subcategory/:subcategory_Name', async (req, res) => {
-      console.log(req.params.subcategory_Name);
-      const result = await AddCraftCollection.find({
-        subcategory_Name: req.params.subcategory_Name,
-      }).toArray();
-      res.send(result);
-    });
 
     app.get('/AddCraft/:id', async (req, res) => {
       const result = await AddCraftCollection.findOne({
@@ -111,6 +104,14 @@ async function run() {
       res.send(result);
     });
 
+    // subcategory
+    app.get('/subcategory/:subcategory_Name', async (req, res) => {
+      console.log(req.params.subcategory_Name);
+      const result = await AddCraftCollection.find({
+        subcategory_Name: req.params.subcategory_Name,
+      }).toArray();
+      res.send(result);
+    });
     // AddSubcategoryCollection;
     app.get('/Subcategory', async (req, res) => {
       const cursor = AddSubcategoryCollection.find();
