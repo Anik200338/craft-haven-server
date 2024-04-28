@@ -36,7 +36,23 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    app.get('/mycraft/:email', async (req, res) => {
+    app.get('/AddCraft', async (req, res) => {
+      const cursor = AddCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    app.get('/mycraft', async (req, res) => {
+      const cursor = AddCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // app.get('/mycraft/:email', async (req, res) => {
+    //   const result = await AddCraftCollection.find({
+    //     email: req.params.email,
+    //   }).toArray();
+    //   res.send(result);
+    // });
+    app.get('/craft/:email', async (req, res) => {
       const result = await AddCraftCollection.find({
         email: req.params.email,
       }).toArray();
@@ -44,6 +60,12 @@ async function run() {
     });
 
     app.get('/AddCraft/:id', async (req, res) => {
+      const result = await AddCraftCollection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
+      res.send(result);
+    });
+    app.get('/Single/:id', async (req, res) => {
       const result = await AddCraftCollection.findOne({
         _id: new ObjectId(req.params.id),
       });
@@ -73,6 +95,14 @@ async function run() {
         },
       };
       const result = await AddCraftCollection.updateOne(query, data);
+      console.log(result);
+      res.send(result);
+    });
+
+    app.delete('/delete/:id', async (req, res) => {
+      const result = await AddCraftCollection.deleteOne({
+        _id: new ObjectId(req.params.id),
+      });
       console.log(result);
       res.send(result);
     });
