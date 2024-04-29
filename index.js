@@ -37,11 +37,7 @@ async function run() {
     const AddSubcategoryCollection = client
       .db('AddCraftDB')
       .collection('AddSubcategory');
-    app.get('/AddCraft', async (req, res) => {
-      const cursor = AddCraftCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    });
+
     app.get('/AddCraft', async (req, res) => {
       const cursor = AddCraftCollection.find();
       const result = await cursor.toArray();
