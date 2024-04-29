@@ -9,9 +9,9 @@ const app = express();
 app.use(
   cors({
     origin: [
-      'http://localhost:5173/',
-      'https://assignment-10-7eeb4.web.app/',
-      'https://assignment-10-7eeb4.firebaseapp.com/',
+      'http://localhost:5173',
+      'https://assignment-10-7eeb4.web.app',
+      'https://assignment-10-7eeb4.firebaseapp.com',
     ],
   })
 );
@@ -37,7 +37,11 @@ async function run() {
     const AddSubcategoryCollection = client
       .db('AddCraftDB')
       .collection('AddSubcategory');
-
+    app.get('/AddCraft', async (req, res) => {
+      const cursor = AddCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
     app.get('/AddCraft', async (req, res) => {
       const cursor = AddCraftCollection.find();
       const result = await cursor.toArray();
